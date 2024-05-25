@@ -277,6 +277,8 @@ class RequestPermittController extends Controller
         $permit_id = $request->input('permit_id');
         $role = $request->input('role');
         $value = $request->input('value');
+        $work_done = $request->input('work_done');
+        $need_permit = $request->input('need_permit');
 
         $userId = $request->input('user_id');
         $user = User::find($userId);
@@ -292,6 +294,8 @@ class RequestPermittController extends Controller
             } else {
                 $data = Permitt::where('id', $permit_id)->update([
                     'status_permit' => $value,
+                    'work_done' => $work_done,
+                    'need_permit' => $need_permit
                 ]);
             }
             $permitt = Permitt::find($permit_id);
@@ -317,12 +321,23 @@ class RequestPermittController extends Controller
                 'action' => 'Telah melakukan ' . $value . ' Request Permit'
             ]);
         } elseif ($role == 'HSE') {
-            $data = Permitt::where('id', $permit_id)->update([
-                'status' => 'Aktif',
-                'status_permit' => $value,
-                'is_approve_manager' => true,
-                'is_approve_hse' => true
-            ]);
+            if ($value == 'Close') {
+                $data = Permitt::where('id', $permit_id)->update([
+                    'status' => 'Aktif',
+                    'status_permit' => $value,
+                    'is_approve_manager' => true,
+                    'is_approve_hse' => true,
+                    'work_done' => $work_done,
+                    'need_permit' => $need_permit
+                ]);
+            } else {
+                $data = Permitt::where('id', $permit_id)->update([
+                    'status' => 'Aktif',
+                    'status_permit' => $value,
+                    'is_approve_manager' => true,
+                    'is_approve_hse' => true,
+                ]);
+            }
             History::create([
                 'permitt_id' => $permit_id,
                 'name' => $user->name . ' (' . $user->role . ')',
@@ -346,12 +361,23 @@ class RequestPermittController extends Controller
                 }
             });
         } else {
-            $data = Permitt::where('id', $permit_id)->update([
-                'status' => 'Aktif',
-                'status_permit' => $value,
-                'is_approve_manager' => true,
-                'is_approve_hse' => false
-            ]);
+            if ($value == 'Close') {
+                $data = Permitt::where('id', $permit_id)->update([
+                    'status' => 'Aktif',
+                    'status_permit' => $value,
+                    'is_approve_manager' => true,
+                    'is_approve_hse' => false,
+                    'work_done' => $work_done,
+                    'need_permit' => $need_permit
+                ]);
+            } else {
+                $data = Permitt::where('id', $permit_id)->update([
+                    'status' => 'Aktif',
+                    'status_permit' => $value,
+                    'is_approve_manager' => true,
+                    'is_approve_hse' => false
+                ]);
+            }
             if ($value == 'Extends') {
                 $hse = User::where('role', 'HSE')->get();
                 $value = $request->input('value');
