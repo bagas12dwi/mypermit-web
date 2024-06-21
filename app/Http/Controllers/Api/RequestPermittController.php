@@ -15,6 +15,7 @@ use App\Notifications\PermitNotification;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Stmt\Else_;
 use Spatie\FlareClient\Api;
 
@@ -43,10 +44,10 @@ class RequestPermittController extends Controller
                 'tools_used' => $request->input('tools_used'),
                 'lifting_distance' => $request->input('lifting_distance'),
                 'gas_measurements' => $request->input('gas_measurements'),
-                'oksigen' => $request->input('oksigen'),
-                'karbon_dioksida' => $request->input('karbon_dioksida'),
-                'hidrogen_sulfida' => $request->input('hidrogen_sulfida'),
-                'lel' => $request->input('lel'),
+                'oksigen' => (float) $request->input('oksigen'),
+                'karbon_dioksida' => (float) $request->input('karbon_dioksida'),
+                'hidrogen_sulfida' => (float) $request->input('hidrogen_sulfida'),
+                'lel' => (float) $request->input('lel'),
                 'aman_masuk' => $request->input('aman_masuk'),
                 'aman_hotwork' => $request->input('aman_hotwork'),
             ]);
@@ -121,7 +122,13 @@ class RequestPermittController extends Controller
                 ->orderBy('updated_at', 'DESC')->get();
         } else {
             $data = Permitt::with('user', 'workPreparation', 'hazard', 'control', 'document')
-                ->where('user_id', $userId)->orderBy('updated_at', 'DESC')->get();
+                ->where('user_id', $userId)
+                ->orderBy('updated_at', 'DESC')
+                ->get()
+                ->map(function ($item) {
+                    $item->oksigen = number_format((float) $item->oksigen, 1);
+                    return $item;
+                });
         }
 
         if ($data) {

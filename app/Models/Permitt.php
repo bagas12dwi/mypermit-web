@@ -9,6 +9,12 @@ class Permitt extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    protected $casts = [
+        'oksigen' => 'double',
+        'karbon_dioksida' => 'double',
+        'hidrogen_sulfida' => 'double',
+        'lel' => 'double'
+    ];
 
     public function workPreparation()
     {
