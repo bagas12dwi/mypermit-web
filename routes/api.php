@@ -33,6 +33,7 @@ Route::post('/getDetailPermit', [RequestPermittController::class, 'getDetailPerm
 Route::post('/confirmPermit', [RequestPermittController::class, 'confirmPermit']);
 Route::post('/getOpenPermit', [RequestPermittController::class, 'getOpenPermit']);
 Route::post('/openPermit', [RequestPermittController::class, 'openPermit']);
+Route::post('/updatePermitt', [RequestPermittController::class, 'update']);
 
 Route::post('/getHistory', [HistoryController::class, 'getHistory']);
 Route::post('/storeHousekeeping', [HousekeepingController::class, 'storeHousekeeping']);
