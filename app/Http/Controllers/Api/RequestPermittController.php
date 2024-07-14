@@ -163,7 +163,6 @@ class RequestPermittController extends Controller
                 ->orderBy('updated_at', 'DESC')->get();
         } else {
             $data = Permitt::with('user', 'workPreparation', 'hazard', 'control', 'document')
-                ->where('user_id', $userId)
                 ->orderBy('updated_at', 'DESC')
                 ->get()
                 ->map(function ($item) {
@@ -262,7 +261,8 @@ class RequestPermittController extends Controller
                 ]);
             } else if ($role == 'Pelaksana Kerja') {
                 $data = Permitt::where('id', $permit_id)->update([
-                    'is_approve_pelaksana' => true
+                    'is_approve_pelaksana' => true,
+                    'pelaksana_name' => $user->name
                 ]);
                 History::create([
                     'permitt_id' => $permit_id,
@@ -272,7 +272,8 @@ class RequestPermittController extends Controller
                 ]);
             } else if ($role == 'Supervisi') {
                 $data = Permitt::where('id', $permit_id)->update([
-                    'is_approve_supervisi' => true
+                    'is_approve_supervisi' => true,
+                    'supervisi_name' => $user->name
                 ]);
                 History::create([
                     'permitt_id' => $permit_id,

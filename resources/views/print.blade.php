@@ -101,6 +101,13 @@
                 </tr>
             @endif
             <tr>
+                <td colspan="4" style="border: 1px solid #000; color: #fff; background-color: teal">Detail Proses
+                    Pekerjaan</td>
+            </tr>
+            <tr>
+                <td colspan="4">{{ $permit->type_of_work }}</td>
+            </tr>
+            <tr>
                 <td colspan="4" style="border: 1px solid #000; color: #fff; background-color: teal">Persiapan
                     Pekerjaan</td>
             </tr>
@@ -114,6 +121,13 @@
                     </td>
                 </tr>
             @endforeach
+            <tr>
+                <td colspan="4" style="border: 1px solid #000; color: #fff; background-color: teal">Kontrol
+                    Pengendalian</td>
+            </tr>
+            <tr>
+                <td colspan="4">{{ $permit->kontrol_pengendalian }}</td>
+            </tr>
             <tr>
                 <td colspan="4" style="border: 1px solid #000; color: #fff; background-color: teal">Identifikasi
                     Bahaya</td>
@@ -160,8 +174,8 @@
                 <td height=10%></td>
             </tr>
             <tr style="border: 1px solid #000; text-align:center;">
-                <td style="border-right: 1px solid #000;"></td>
-                <td style="border-right: 1px solid #000;">{{ $permit->user->name }}</td>
+                <td style="border-right: 1px solid #000;">{{ $permit->pelaksana_name }}</td>
+                <td style="border-right: 1px solid #000;">{{ $permit->supervisi_name }}</td>
                 <td style="border-right: 1px solid #000;">{{ $permit->manager_name }}</td>
                 <td>{{ $permit->hse_name }}</td>
             </tr>
