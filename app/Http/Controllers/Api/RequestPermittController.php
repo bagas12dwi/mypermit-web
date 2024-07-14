@@ -190,7 +190,7 @@ class RequestPermittController extends Controller
         } else {
             $data = Permitt::with('user', 'workPreparation', 'hazard', 'control')
                 ->where('status', 'Aktif')
-                ->where('user_id', $userId)->orderBy('updated_at', 'DESC')->get();
+                ->orderBy('updated_at', 'DESC')->get();
         }
 
         if ($data) {
